@@ -13,13 +13,13 @@
         android:textSize="16sp"
         android:gravity="center"
         android:padding="16dp"
-        android:text="Output Text" />
+        android:text="@string/output_text" />
 
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="Back to form" />
+        android:text="@string/back_to_form" />
 
 </FrameLayout>

@@ -5,23 +5,8 @@
     android:id="@+id/contentFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/material_dynamic_tertiary50"
     tools:context="com.example.myapplication.ContentFragment">
 
-
-    <RadioButton
-        android:id="@+id/radio_no"
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="25dp"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="140dp"
-        android:layout_marginBottom="25dp"
-        android:text="No"
-        app:layout_constraintBottom_toTopOf="@+id/button"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/radio_yes"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
 
     <RadioButton
         android:id="@+id/radio_yes"
@@ -31,20 +16,38 @@
         android:layout_marginTop="11dp"
         android:layout_marginEnd="26dp"
         android:layout_marginBottom="25dp"
-        android:text="Yes"
+        android:text="@string/yes"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toStartOf="@+id/radio_no"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputEditText" />
+        app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
+        app:layout_constraintVertical_bias="0.198" />
+
+    <RadioButton
+        android:id="@+id/radio_no"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="25dp"
+        android:layout_marginTop="11dp"
+        android:layout_marginEnd="140dp"
+        android:layout_marginBottom="25dp"
+        android:text="@string/no"
+        app:layout_constraintBottom_toTopOf="@+id/button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/radio_yes"
+        app:layout_constraintTop_toBottomOf="@+id/textInputEditText"
+        app:layout_constraintVertical_bias="0.026" />
 
     <com.google.android.material.textfield.TextInputEditText
         android:id="@+id/textInputEditText"
         android:layout_width="wrap_content"
-        android:layout_height="50dp"
-        android:layout_marginTop="228dp"
-        android:hint="enter your text here"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="112dp"
+        android:layout_marginBottom="1dp"
+        android:hint="@string/enter_your_text_here"
+        app:layout_constraintBottom_toTopOf="@+id/radio_yes"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -52,10 +55,12 @@
         android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="326dp"
-        android:text="Button"
+        android:layout_marginTop="15dp"
+        android:layout_marginBottom="451dp"
+        android:text="@string/submit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.526"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/radio_yes" />
 </androidx.constraintlayout.widget.ConstraintLayout>
