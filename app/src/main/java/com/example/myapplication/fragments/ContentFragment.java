@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.fragments;
 
 import android.os.Bundle;
 
@@ -6,7 +6,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,10 +13,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RadioButton;
 
+import com.example.myapplication.R;
+import com.example.myapplication.services.ReadFileService;
+import com.example.myapplication.services.WriteFileService;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class ContentFragment extends Fragment {
 
+    private ReadFileService readFileService;
+    private WriteFileService writeFileService;
     private TextInputEditText inputEditText;
     private Button buttonSubmit;
     private RadioButton yesRadioButton;
@@ -25,6 +29,13 @@ public class ContentFragment extends Fragment {
 
     public ContentFragment() {
         setRetainInstance(true);
+    }
+
+    public ContentFragment(ReadFileService readFileService, WriteFileService writeFileService) {
+        this();
+
+        this.readFileService = readFileService;
+        this.writeFileService = writeFileService;
     }
 
     @Override

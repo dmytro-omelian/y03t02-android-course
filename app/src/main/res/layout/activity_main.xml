@@ -9,7 +9,7 @@
 
 <!--    <androidx.fragment.app.FragmentContainerView-->
 <!--        android:id="@+id/fragment"-->
-<!--        android:name="com.example.myapplication.ContentFragment"-->
+<!--        android:name="com.example.myapplication.fragments.ContentFragment"-->
 <!--        android:layout_width="0dp"-->
 <!--        android:layout_height="0dp"-->
 <!--        android:layout_marginLeft="8dp"-->
