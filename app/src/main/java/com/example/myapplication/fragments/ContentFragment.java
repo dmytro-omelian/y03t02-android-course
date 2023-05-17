@@ -11,31 +11,38 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.R;
 import com.example.myapplication.services.ReadFileService;
 import com.example.myapplication.services.WriteFileService;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 public class ContentFragment extends Fragment {
 
-    private ReadFileService readFileService;
-    private WriteFileService writeFileService;
+    private EditText outputText;
     private TextInputEditText inputEditText;
     private Button buttonSubmit;
     private RadioButton yesRadioButton;
     private RadioButton noRadioButton;
 
-    public ContentFragment() {
-        setRetainInstance(true);
+    private Button openFileButton;
+
+    private OpenFileInputCallback openFileInputCallback;
+    public void setOpenFileInputCallback(OpenFileInputCallback callback) {
+        openFileInputCallback = callback;
     }
 
-    public ContentFragment(ReadFileService readFileService, WriteFileService writeFileService) {
-        this();
 
-        this.readFileService = readFileService;
-        this.writeFileService = writeFileService;
+    public ContentFragment() {
+        setRetainInstance(true);
     }
 
     @Override
@@ -47,6 +54,7 @@ public class ContentFragment extends Fragment {
         buttonSubmit = view.findViewById(R.id.button);
         yesRadioButton = view.findViewById(R.id.radio_yes);
         noRadioButton = view.findViewById(R.id.radio_no);
+        openFileButton = view.findViewById(R.id.open_answers);
 
         buttonSubmit.setOnClickListener(view1 -> {
 
@@ -60,6 +68,36 @@ public class ContentFragment extends Fragment {
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, outputFragment)
+                    .commit();
+        });
+
+        openFileButton.setOnClickListener(view2 -> {
+            String text = "Empty text.";
+
+            if (openFileInputCallback != null) {
+                FileInputStream fin = null;
+                try {
+                    fin = openFileInputCallback.openFileInputStream("content.txt");
+                    byte[] bytes = new byte[fin.available()];
+                    fin.read(bytes);
+                    text = new String(bytes);
+                } catch (IOException ex) {
+//                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                } finally {
+                    try {
+                        if (fin != null)
+                            fin.close();
+                    } catch (IOException ex) {
+//                        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+
+            FileOutputFragment fileOutputFragment = FileOutputFragment.newInstance(text);
+
+            FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction()
+                    .replace(R.id.fragment_container, fileOutputFragment)
                     .commit();
         });
         return view;
@@ -90,6 +128,11 @@ public class ContentFragment extends Fragment {
             return "Yes";
         }
         return "No";
+    }
+
+    public interface OpenFileInputCallback {
+        FileInputStream openFileInputStream(String fileName) throws IOException, FileNotFoundException;
+
     }
 
 }

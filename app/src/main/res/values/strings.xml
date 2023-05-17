@@ -9,4 +9,6 @@
     <string name="yes">Yes</string>
     <string name="output_text">Output Text</string>
     <string name="back_to_form">Back to form</string>
+    <string name="ok">Ok</string>
+    <string name="open_answers">Open answers</string>
 </resources>
