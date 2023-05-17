@@ -1,13 +1,13 @@
 package com.example.myapplication;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.myapplication.fragments.ContentFragment;
 
@@ -18,18 +18,11 @@ import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity implements ContentFragment.OpenFileInputCallback {
     private final static String FILE_NAME = "content.txt";
-//    private FileRepository fileRepository;
-//    private ReadFileService readFileService;
-//    private WriteFileService writeFileService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-//        fileRepository = new FileRepository("com/example/myapplication/storage");
-//        readFileService = new ReadFileService(fileRepository);
-//        writeFileService = new WriteFileService(fileRepository);
 
         if (savedInstanceState == null) {
             ContentFragment contentFragment = new ContentFragment();
@@ -42,15 +35,21 @@ public class MainActivity extends AppCompatActivity implements ContentFragment.O
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Remove the default behavior of recreating the fragments
+        super.onConfigurationChanged(newConfig); // Remove the default behavior of recreating the fragments
     }
 
     public void saveText(View view) {
+        
+        String existedText = openText();
+        StringBuilder sb = new StringBuilder(existedText);
+        
         FileOutputStream fos = null;
         try {
             EditText textBox = (EditText) findViewById(R.id.textInputEditText);
             String text = textBox.getText().toString();
+            sb.append("\n").append(text);
+            text = sb.toString();
+
             fos = openFileOutput(FILE_NAME, MODE_PRIVATE);
             fos.write(text.getBytes());
             Toast.makeText(this, "Файл збережено", Toast.LENGTH_SHORT).show();
@@ -68,25 +67,17 @@ public class MainActivity extends AppCompatActivity implements ContentFragment.O
 
     @Override
     public FileInputStream openFileInputStream(String fileName) throws FileNotFoundException {
-        // Invoke the openFileInput method here
-        // You can put your implementation logic here
         return openFileInput(fileName);
     }
 
-    // відкриття файлу
-    public void openText(View view) {
+    public String openText() {
         FileInputStream fin = null;
-        TextView textView = (TextView) findViewById(R.id.fileOutput); // FIXME here should be button from new fragment
         try {
             fin = openFileInput(FILE_NAME);
             byte[] bytes = new byte[fin.available()];
             fin.read(bytes);
             String text = new String(bytes);
-//            if (text.isEmpty()) {
-//                return "Input is empty";
-//            }
-//            return text;
-            textView.setText(text);
+            return text;
         } catch (IOException ex) {
             Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
         } finally {
@@ -97,6 +88,6 @@ public class MainActivity extends AppCompatActivity implements ContentFragment.O
                 Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
             }
         }
-//        return "Error occurred.";
+        return "Error occurred.";
     }
 }

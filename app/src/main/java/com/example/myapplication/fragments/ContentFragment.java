@@ -1,28 +1,22 @@
 package com.example.myapplication.fragments;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.example.myapplication.R;
-import com.example.myapplication.services.ReadFileService;
-import com.example.myapplication.services.WriteFileService;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ContentFragment extends Fragment {
@@ -36,13 +30,13 @@ public class ContentFragment extends Fragment {
     private Button openFileButton;
 
     private OpenFileInputCallback openFileInputCallback;
-    public void setOpenFileInputCallback(OpenFileInputCallback callback) {
-        openFileInputCallback = callback;
-    }
-
 
     public ContentFragment() {
         setRetainInstance(true);
+    }
+
+    public void setOpenFileInputCallback(OpenFileInputCallback callback) {
+        openFileInputCallback = callback;
     }
 
     @Override
@@ -75,22 +69,7 @@ public class ContentFragment extends Fragment {
             String text = "Empty text.";
 
             if (openFileInputCallback != null) {
-                FileInputStream fin = null;
-                try {
-                    fin = openFileInputCallback.openFileInputStream("content.txt");
-                    byte[] bytes = new byte[fin.available()];
-                    fin.read(bytes);
-                    text = new String(bytes);
-                } catch (IOException ex) {
-//                    Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                } finally {
-                    try {
-                        if (fin != null)
-                            fin.close();
-                    } catch (IOException ex) {
-//                        Toast.makeText(this, ex.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }
+                text = readFile(text, "content.txt");
             }
 
             FileOutputFragment fileOutputFragment = FileOutputFragment.newInstance(text);
@@ -103,16 +82,34 @@ public class ContentFragment extends Fragment {
         return view;
     }
 
+    private String readFile(String text, String filename) {
+        FileInputStream fin = null;
+        try {
+            fin = openFileInputCallback.openFileInputStream(filename);
+            byte[] bytes = new byte[fin.available()];
+            fin.read(bytes);
+            text = new String(bytes);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (fin != null)
+                    fin.close();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+        return text;
+    }
+
     @Override
     public void onSaveInstanceState(@NonNull Bundle outState) {
-        super.onSaveInstanceState(outState);
-        // Save necessary data into the outState bundle
+        super.onSaveInstanceState(outState); // Save necessary data into the outState bundle
     }
 
     @Override
     public void onViewStateRestored(@Nullable Bundle savedInstanceState) {
-        super.onViewStateRestored(savedInstanceState);
-        // Restore the fragment's state from the savedInstanceState bundle
+        super.onViewStateRestored(savedInstanceState); // Restore the fragment's state from the savedInstanceState bundle
     }
 
 
@@ -131,7 +128,7 @@ public class ContentFragment extends Fragment {
     }
 
     public interface OpenFileInputCallback {
-        FileInputStream openFileInputStream(String fileName) throws IOException, FileNotFoundException;
+        FileInputStream openFileInputStream(String fileName) throws IOException;
 
     }
 

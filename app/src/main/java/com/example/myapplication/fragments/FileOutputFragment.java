@@ -19,6 +19,7 @@ public class FileOutputFragment extends Fragment {
     private Button backButton;
 
     private String outputParam;
+
     public FileOutputFragment() {
     }
 
@@ -37,7 +38,6 @@ public class FileOutputFragment extends Fragment {
             outputParam = getArguments().getString(OUTPUT_ARG_PARAM);
         }
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
