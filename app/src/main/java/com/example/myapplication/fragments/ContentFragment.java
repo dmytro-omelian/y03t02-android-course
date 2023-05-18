@@ -57,7 +57,7 @@ public class ContentFragment extends Fragment {
             message = String.format("Question: %s \nAnswer: %s", message,
                     getResponseFromCheckBox(yesRadioButton.isChecked(), noRadioButton.isChecked()));
 
-            OutputFragment outputFragment = OutputFragment.newInstance(getOutputMessage(message));
+            OutputFragment outputFragment = OutputFragment.newInstance(getOutputMessage(message), openFileInputCallback);
 
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
@@ -72,7 +72,7 @@ public class ContentFragment extends Fragment {
                 text = readFile(text, "content.txt");
             }
 
-            FileOutputFragment fileOutputFragment = FileOutputFragment.newInstance(text);
+            FileOutputFragment fileOutputFragment = FileOutputFragment.newInstance(text, openFileInputCallback);
 
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()

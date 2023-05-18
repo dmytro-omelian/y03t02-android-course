@@ -23,11 +23,13 @@ public class OutputFragment extends Fragment {
     public OutputFragment() {
     }
 
-    public static OutputFragment newInstance(String outputParam) {
+    private static ContentFragment.OpenFileInputCallback openFileInputCallback;
+    public static OutputFragment newInstance(String outputParam, ContentFragment.OpenFileInputCallback callback) {
         OutputFragment fragment = new OutputFragment();
         Bundle args = new Bundle();
         args.putString(OUTPUT_ARG_PARAM, outputParam);
         fragment.setArguments(args);
+        openFileInputCallback = callback;
         return fragment;
     }
 
@@ -49,6 +51,8 @@ public class OutputFragment extends Fragment {
 
         backButton.setOnClickListener(view1 -> {
             ContentFragment formFragment = new ContentFragment();
+            formFragment.setOpenFileInputCallback(openFileInputCallback);
+
             FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
             fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container, formFragment)
